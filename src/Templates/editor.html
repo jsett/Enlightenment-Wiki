@@ -31,6 +31,8 @@
     <script src="../assets/codemirror-5.40.2/mode/javascript/javascript.js"></script>
     <script src="../assets/codemirror-5.40.2/mode/markdown/markdown.js"></script>
     <script src="../assets/codemirror-5.40.2/keymap/sublime.js"></script>
+
+    <script src="../assets/markdown-it.min.js"></script>
     <title>Index</title>
 </head>
 <body>
@@ -67,8 +69,9 @@
         </div>
         <div class="col-md-6">
             <div id="md">markdown</div>
-            <textarea id="mdv">
-            </textarea>
+            <div id="mdv"></div>
+            <!--textarea id="mdv">
+            </textarea-->
         </div>
       </div>
     </div>
@@ -82,7 +85,10 @@
 <script>
   var value = "";
   var map = CodeMirror.keyMap.sublime;
-value = "testing"
+  value = "# testing"
+  var md = window.markdownit();
+  $("#mdv").html(md.render(value));
+  
   var editor = CodeMirror(document.getElementById("cm"), {
     value: value,
     lineNumbers: true,
@@ -96,7 +102,10 @@ value = "testing"
 
   });
   editor.on('change', editor => {
-    document.getElementById("mdv").value = editor.getValue();
+      var result = md.render(editor.getValue());
+    //document.getElementById("mdv").value = result;
+
+    $("#mdv").html(result);
   })
 </script>
 
