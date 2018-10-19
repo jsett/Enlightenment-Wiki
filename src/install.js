@@ -10,16 +10,44 @@ var fs = require('fs');
 
 module.exports.install = (event, context, callback) => {
   console.log("Starting install..");
-  //console.log("Bucket: "+process.env.BUCKET);
-  //console.log("MyFolder: "+process.env.MyFolder);
-  var params = {
-    Bucket: process.env.BUCKET, /* required */
-    Key: 'data' /* required */
-  };
-  s3.headObject(params, function(err, data) {
-    if (err) console.log(err, err.stack); // an error occurred
-    else     console.log(data);           // successful response
-  });
+  console.log("Bucket: "+process.env.BUCKET);
+  console.log("MyFolder: "+process.env.MyFolder);
+
+  var filePath = process.env.MyFolder;
+  var bucketParams = {
+   Bucket : process.env.BUCKET,
+};
+
+
+s3.createBucket(bucketParams, function(err, data) {
+   if (err) {
+      console.log("Error", err);
+   } else {
+      console.log("Success", data.Location);
+   }
+});
+/*
+fs.readFile("assets/bootstrap-4.1.3-dist/css/bootstrap.min.css", {encoding: 'utf-8'}, function(err,data2){
+    console.log(err);
+    console.log(data2);
+    if (!err) {
+
+        var params = {
+          Bucket: process.env.BUCKET,
+          Key: process.env.MyFolder+"/bootstrap.min.css",
+          Body: data2,
+        };
+
+        s3.putObject(params, function(err, data) {
+          if (err) var res = [err, err.stack]; // an error occurred
+          else     var res = [data];           // successful response
+        });
+
+    } else {
+        console.log(err);
+    }
+});
+*/
 
 var install_files = [
   "/assets/bootstrap-4.1.3-dist/css/bootstrap.min.css",
